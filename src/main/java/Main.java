@@ -382,8 +382,8 @@ public class Main {
         Scanner scString = new Scanner(System.in);
         System.out.println("Indica el " + input);
         String valueToSearch = scString.nextLine();
-        String teacherId = "";
-        String departmentIdS = "";
+        String professorId = "";
+        String departmentId = "";
         String departmentName = "";
         try {
             session.beginTransaction();
@@ -391,23 +391,23 @@ public class Main {
             // Recorriendo la lista de objetos Person
             List<PersonEntity> personEntities = query.list();
             for (PersonEntity person : personEntities) {
-                int id = person.getId();
-                query = session.createQuery("from ProfessorEntity where personId = " + id);
+                int personId = person.getId();
+                query = session.createQuery("from ProfessorEntity where personId = " + personId);
 
                 ProfessorEntity p = (ProfessorEntity) query.uniqueResult();
                 if (p != null){
-                    teacherId = String.valueOf(p.getId());
-                    departmentIdS = String.valueOf(p.getDepartmentId());
+                    professorId = String.valueOf(p.getId());
+                    departmentId = String.valueOf(p.getDepartmentId());
 
-                    query = session.createQuery("from DepartmentEntity where id = " + departmentIdS);
+                    query = session.createQuery("from DepartmentEntity where id = " + departmentId);
                     DepartmentEntity d = (DepartmentEntity) query.uniqueResult();
                     departmentName = d.getName();
                 }
 
 
                 System.out.println(person.toString() +
-                        "\nId profesor: " + teacherId +
-                        "\nId departamento: " + departmentIdS +
+                        "\nId profesor: " + professorId +
+                        "\nId departamento: " + departmentId +
                         "\nNombre departamento: " + departmentName);
             }
 
