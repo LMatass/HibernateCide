@@ -488,45 +488,28 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         try {
             session.beginTransaction();
-            PersonEntity personEntity = new PersonEntity();
+            PersonEntity p = new PersonEntity();
 
-            System.out.println("Ingrese el nif");
-            String nif = sc.nextLine();
-            personEntity.setNif(nif);
+            String nif = askForInfo("el NIF: ");
+            String name = askForInfo("el nombre: ");
+            String firstName = askForInfo("el 1er apellido: ");
+            String lastName = askForInfo("el 2do apellido: ");
+            String birthDate = askForInfo("la fecha de nacimiento en formato (yyyy-mm-dd): ");
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(birthDate);
+            String address = askForInfo("la direccion: ");
+            String gender = askForInfo("el sexo de la persona: ");
+            String phoneNumber = askForInfo("el numero de telefono: ");
 
-            System.out.println("Ingrese el nombre");
-            String name = sc.nextLine();
-            personEntity.setName(name);
+            p.setNif(nif);
+            p.setName(name);
+            p.setFirstName(firstName);
+            p.setLastName(lastName);
+            p.setBirthDate(date);
+            p.setAddress(address);
+            p.setGender(gender);
+            p.setPhoneNumber(Integer.valueOf(phoneNumber));
 
-            System.out.println("Ingrese el primer apellido");
-            String first_name = sc.nextLine();
-            personEntity.setFirstName(first_name);
-
-            System.out.println("Ingrese el segundo apellido");
-            String last_name = sc.nextLine();
-            personEntity.setLastName(last_name);
-
-            System.out.println("Ingrese la fecha de nacimiento en formato yyyy-MM-dd");
-            String birth_date = sc.nextLine();
-            DateTimeFormatter formatDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate localDateTime = LocalDate.parse(birth_date, formatDateTime);
-            Timestamp ts = Timestamp.valueOf(localDateTime.atStartOfDay());
-            Date d = new Date(ts.getTime());
-            personEntity.setBirthDate(d);
-
-            System.out.println("Ingrese el genero (Male / Female)");
-            String gender = sc.nextLine();
-            personEntity.setGender(gender);
-
-            System.out.println("Ingrese la direccion");
-            String address = sc.nextLine();
-            personEntity.setAddress(address);
-
-            System.out.println("Ingrese el num de telefono");
-            String phone_number = sc.nextLine();
-            personEntity.setPhoneNumber(Integer.parseInt(phone_number));
-
-            session.saveOrUpdate(personEntity);
+            session.saveOrUpdate(p);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
